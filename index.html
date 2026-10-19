@@ -4154,19 +4154,32 @@ var d0=$('dlgOffline');if(d0&&d0.classList.contains('open')){safeInit();netUp()}
 #tts *{box-sizing:border-box}
 #ttsFab{display:flex;align-items:center;gap:6px;height:46px;padding:0 15px;border-radius:23px;border:1px solid var(--line);background:var(--card);color:var(--ink);box-shadow:0 3px 12px rgba(0,0,0,.28);font:700 14px/1 inherit;font-family:inherit;cursor:pointer}
 #ttsFab[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
-#ttsPanel{display:none;width:min(94vw,380px);margin-bottom:8px;padding:12px 13px 13px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+#ttsPanel{display:none;width:min(94vw,400px);max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);overflow-y:auto;margin-bottom:8px;padding:12px 13px 13px;border-radius:16px;background:var(--card);border:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.35)}
 #tts.open #ttsPanel{display:block}
 #ttsPanel .tt-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13.5px;font-weight:700;margin-bottom:6px}
 #ttsPanel .tt-x{border:1px solid var(--line);background:none;color:var(--ink);border-radius:8px;height:30px;padding:0 10px;font:inherit;font-size:12.5px;cursor:pointer}
 #ttsPanel .tt-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
-#ttsPanel .tt-b{flex:1 1 auto;min-width:46px;height:42px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:700 14px/1 inherit;font-family:inherit;cursor:pointer;padding:0 8px}
+#ttsPanel .tt-b{flex:1 1 auto;min-width:46px;height:42px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:700 13.5px/1 inherit;font-family:inherit;cursor:pointer;padding:0 8px}
 #ttsPanel .tt-b.main{background:var(--blue);border-color:var(--blue);color:#fff;flex:2 1 90px}
-#ttsPanel label{display:flex;flex:1 1 140px;flex-direction:column;gap:2px;font-size:11.5px;color:var(--sub)}
+#ttsPanel .tt-b.sm{height:34px;font-size:12.5px;font-weight:400}
+#ttsPanel .tt-b[disabled]{opacity:.4;cursor:default}
+#ttsPanel .tt-b.on{background:var(--amber);border-color:var(--amber);color:#1a1100}
+#ttsPanel label.tt-f{display:flex;flex:1 1 140px;flex-direction:column;gap:2px;font-size:11.5px;color:var(--sub)}
 #ttsPanel select{height:36px;border-radius:9px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13px;padding:0 6px;max-width:100%}
+#ttsPanel fieldset{border:1px solid var(--line);border-radius:11px;margin:8px 0;padding:6px 10px 8px}
+#ttsPanel legend{font-size:12px;font-weight:700;padding:0 4px;color:var(--sub)}
+#ttsPanel .tt-rd{display:flex;align-items:center;gap:7px;font-size:13.5px;padding:5px 0;cursor:pointer}
+#ttsPanel .tt-rd input,#ttsPanel .tt-ck input{width:18px;height:18px;flex:none;accent-color:var(--blue)}
+#ttsPanel .tt-ck{display:flex;align-items:center;gap:7px;font-size:13px;padding:5px 2px;cursor:pointer;line-height:1.5}
+#ttsPanel .tt-ck small{margin-left:auto;color:var(--sub);font-size:11.5px;white-space:nowrap}
+#ttsPages{max-height:200px;overflow-y:auto;border:1px solid var(--line);border-radius:9px;padding:2px 8px;margin:4px 0;background:var(--bg)}
 #ttsPanel .tt-st{font-size:12px;color:var(--sub);line-height:1.6;margin-top:4px}
 #ttsPanel .tt-st b{color:var(--ink)}
 .tts-now{background:rgba(255,205,70,.38)!important;outline:2px solid rgba(240,160,0,.75);outline-offset:2px;border-radius:5px;scroll-margin:110px}
 html.dk .tts-now{background:rgba(255,205,70,.22)!important}
+body.tts-picking{cursor:crosshair}
+#ttsHint{display:none;position:fixed;left:50%;top:max(12px,env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:410;max-width:92vw;padding:10px 16px;border-radius:12px;background:#14202f;color:#fff;font-size:14px;line-height:1.6;box-shadow:0 4px 16px rgba(0,0,0,.4);text-align:center}
+body.tts-picking #ttsHint{display:block}
 @media print{#tts{display:none!important}}
 </style>
 <div id="tts" class="no-tts" role="region" aria-label="音声読み上げ" hidden>
@@ -4182,11 +4195,32 @@ html.dk .tts-now{background:rgba(255,205,70,.22)!important}
       <button type="button" class="tt-b" id="ttsHead" aria-label="次の見出しへ">見出し ⏩</button>
     </div>
     <div class="tt-row">
-      <label>速さ<select id="ttsRate"><option value="0.8">ゆっくり(0.8)</option><option value="1">ふつう(1.0)</option><option value="1.2">少し速い(1.2)</option><option value="1.5">速い(1.5)</option><option value="1.8">とても速い(1.8)</option></select></label>
-      <label>声<select id="ttsVoice"></select></label>
+      <button type="button" class="tt-b sm" id="ttsPg" aria-label="次のページへ">次のページへ ⏭</button>
+      <button type="button" class="tt-b sm" id="ttsPick" aria-pressed="false">👆 タップした所から読む</button>
+    </div>
+    <fieldset>
+      <legend>読み上げる範囲</legend>
+      <label class="tt-rd"><input type="radio" name="ttsMode" value="cur"> いま見ている画面だけ</label>
+      <label class="tt-rd"><input type="radio" name="ttsMode" value="all"> 全ページ(TOPページから、すべての画面を順に)</label>
+      <label class="tt-rd"><input type="radio" name="ttsMode" value="sel"> 読むページを指定する</label>
+      <div id="ttsSelBox" hidden>
+        <div class="tt-row">
+          <button type="button" class="tt-b sm" id="ttsAll">全て選ぶ</button>
+          <button type="button" class="tt-b sm" id="ttsNone">全て外す</button>
+          <button type="button" class="tt-b sm" id="ttsNoList">長い一覧を除く</button>
+        </div>
+        <div id="ttsPages" role="group" aria-label="読み上げるページ"></div>
+        <div class="tt-st" id="ttsSum"></div>
+      </div>
+      <label class="tt-ck"><input type="checkbox" id="ttsFold"> 折りたたまれた中身も読む(各手順の本文など)</label>
+    </fieldset>
+    <div class="tt-row">
+      <label class="tt-f">速さ<select id="ttsRate"><option value="0.8">ゆっくり(0.8)</option><option value="1">ふつう(1.0)</option><option value="1.2">少し速い(1.2)</option><option value="1.5">速い(1.5)</option><option value="1.8">とても速い(1.8)</option></select></label>
+      <label class="tt-f">声<select id="ttsVoice"></select></label>
     </div>
     <div class="tt-st" id="ttsSt" aria-live="polite"></div>
   </div>
+  <div id="ttsHint" role="status">👆 読み始めたい所(文章)を、タップしてください。<br><small>やめるときは、左下の「読み上げ」ボタンを押します</small></div>
   <button type="button" id="ttsFab" aria-label="音声読み上げを開く" aria-pressed="false">🔊 <span>読み上げ</span></button>
 </div>
 <script>
@@ -4197,11 +4231,36 @@ html.dk .tts-now{background:rgba(255,205,70,.22)!important}
   var root=$('tts'); root.hidden=false;
   function lg(k){try{return localStorage.getItem(k)}catch(e){return null}}
   function ls(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-  var blocks=[],bi=0,ci=0,gen=0,state='idle',ctxEl=null,marked=null;
+
+  /* ---- ページの一覧(メニューの順) ---- */
+  var PAGES=[
+    {id:'top',label:'TOPページ(対処の手順・被害防止ツールなど)',sel:'.wrap',kind:'top'},
+    {id:'dlgNews',label:'最新情報',sel:'#dlgNews',kind:'dlg'},
+    {id:'dlgList',label:'情報漏洩企業一覧2026 世界版',sel:'#dlgList',kind:'dlg',open:function(){return window.openList('')},long:1},
+    {id:'dlgOut',label:'サイバー攻撃・システム障害一覧2026',sel:'#dlgOut',kind:'dlg',open:function(){return window.openOut('')},long:1},
+    {id:'dlgCancel',label:'解約ページ詐欺チェッカー',sel:'#dlgCancel',kind:'dlg'},
+    {id:'dlgPhish',label:'フィッシング対策ガイド(偽アプリを含む)',sel:'#dlgPhish',kind:'dlg'},
+    {id:'dlgOffline',label:'ネット切断対策ガイド',sel:'#dlgOffline',kind:'dlg'},
+    {id:'dlgCyber',label:'脅威マップの見方',sel:'#dlgCyber',kind:'dlg'},
+    {id:'dlgGloss',label:'サイバー用語集',sel:'#dlgGloss',kind:'dlg',long:1},
+    {id:'dlgAI',label:'主要AI一覧',sel:'#dlgAI',kind:'dlg'},
+    {id:'dlgPriv',label:'プライバシーポリシー',sel:'#dlgPriv',kind:'dlg'},
+    {id:'dlgCredit',label:'制作について',sel:'#dlgCredit',kind:'dlg'}
+  ].filter(function(p){return document.querySelector(p.sel)});
+
+  var blocks=[],bi=0,ci=0,gen=0,state='idle',ctxEl=null,marked=null,queue=[],qi=0,expanded=[],picking=false;
   var rate=parseFloat(lg('ttsRate'))||1;
   $('ttsRate').value=String(rate); if($('ttsRate').value!==String(rate)){rate=1;$('ttsRate').value='1'}
+  var mode=lg('ttsMode'); if(mode!=='all'&&mode!=='sel') mode='cur';
+  var fold=lg('ttsFold')!=='0';
+  var sel={}; (function(){ var s=null; try{s=JSON.parse(lg('ttsSel')||'null')}catch(e){}
+    PAGES.forEach(function(p){ sel[p.id]=s?!!s[p.id]:!p.long; }); })();
 
-  /* ---- 読む範囲:開いている画面(ダイアログ・メニュー)。なければ、ページ全体 ---- */
+  /* ---- 画面の切り替え ---- */
+  function closeAllScreens(){
+    [].forEach.call(document.querySelectorAll('.dlg.open'),function(d){ try{window.closeDlg(d.id)}catch(e){ d.classList.remove('open') } });
+    try{window.closeMenu&&window.closeMenu()}catch(e){}
+  }
   function ctx(){
     var o=[].slice.call(document.querySelectorAll('.dlg.open'));
     if(o.length){var d=o[o.length-1];return d.querySelector('.dlg-in')||d}
@@ -4209,8 +4268,27 @@ html.dk .tts-now{background:rgba(255,205,70,.22)!important}
     if(m&&getComputedStyle(m).display!=='none') return m;
     return document.querySelector('.wrap')||document.body;
   }
+  function showPage(pg){
+    closeAllScreens();
+    if(pg.kind==='dlg'){
+      try{ if(pg.open) pg.open(); else window.openDlg(pg.id); }catch(e){ var d=$(pg.id); if(d) d.classList.add('open'); }
+      var d2=$(pg.id); if(d2) d2.scrollTop=0;
+    }else{ try{window.scrollTo(0,0)}catch(e){} }
+  }
+
+  /* ---- 文章の取り出し ---- */
   var SKIP='script,style,svg,canvas,video,audio,iframe,noscript,button,select,input,textarea,option,[aria-hidden="true"],.no-tts,.dlg-x,.topbar';
-  function vis(p){ if(!p.getClientRects().length) return false; var cs=getComputedStyle(p); return cs.visibility!=='hidden'&&cs.display!=='none'; }
+  // 見えている文章。「折りたたみ」で隠れているだけの文章も、読む設定のときは読む。
+  function readable(p,rootEl){
+    if(p.getClientRects().length){ return getComputedStyle(p).visibility!=='hidden'; }
+    if(!fold) return false;
+    for(var el=p;el&&el!==rootEl.parentElement;el=el.parentElement){
+      var cs=getComputedStyle(el);
+      if(cs.visibility==='hidden') return false;
+      if(cs.display==='none' && !(el.classList&&el.classList.contains('step-b'))) return false;
+    }
+    return true;
+  }
   function blockOf(p,rootEl){ var el=p; while(el&&el!==rootEl){ var d=getComputedStyle(el).display; if(d.indexOf('inline')!==0&&d!=='contents') break; el=el.parentElement; } return el||rootEl; }
   function clean(t){
     return t.replace(/\s+/g,' ')
@@ -4220,8 +4298,7 @@ html.dk .tts-now{background:rgba(255,205,70,.22)!important}
       .replace(/\s+/g,' ').trim();
   }
   function chunks(t){
-    var out=[],parts=t.split(/(?<=[。！？!?])/);
-    var buf='';
+    var out=[],parts=t.split(/(?<=[。！？!?])/),buf='';
     parts.forEach(function(s){
       s=s.trim(); if(!s) return;
       if(s.length>110){ if(buf){out.push(buf);buf=''} var q=s.split(/(?<=[、,;])/),b2='';
@@ -4237,18 +4314,26 @@ html.dk .tts-now{background:rgba(255,205,70,.22)!important}
     var w=document.createTreeWalker(rootEl,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
       if(!n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
       var p=n.parentElement; if(!p||p.closest(SKIP)) return NodeFilter.FILTER_REJECT;
-      return vis(p)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
+      return readable(p,rootEl)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
     }});
     var n; while((n=w.nextNode())){
       var b=blockOf(n.parentElement,rootEl);
-      if(!cur||cur.el!==b){ cur={el:b,t:'',head:/^(H[1-6]|SUMMARY)$/.test(b.tagName)||/\b(ph-hd|mk)\b/.test(b.className||'')&&false}; res.push(cur); }
+      if(!cur||cur.el!==b){ cur={el:b,t:'',head:/^(H[1-6]|SUMMARY)$/.test(b.tagName)}; res.push(cur); }
       cur.t+=n.nodeValue+' ';
     }
     res.forEach(function(b){ b.chunks=chunks(clean(b.t)); });
     return res.filter(function(b){return b.chunks.length});
   }
 
-  /* ---- 声 ---- */
+  /* ---- 折りたたみを開いて読み、読み終えたら元に戻す ---- */
+  function restoreFold(){ while(expanded.length){ var x=expanded.pop(); if(x.t==='cls') x.el.classList.remove('open'); else x.el.open=false; } }
+  function expandFor(el){
+    restoreFold();
+    var st=el.closest&&el.closest('.step'); if(st&&!st.classList.contains('open')){ st.classList.add('open'); expanded.push({t:'cls',el:st}); }
+    var d=el.parentElement; while(d){ if(d.tagName==='DETAILS'&&!d.open){ d.open=true; expanded.push({t:'det',el:d}); } d=d.parentElement; }
+  }
+
+  /* ---- 声・設定 ---- */
   var vsel=$('ttsVoice'),voices=[];
   function loadVoices(){
     var all=synth.getVoices()||[]; voices=all.filter(function(v){return /^ja/i.test(v.lang)});
@@ -4259,27 +4344,67 @@ html.dk .tts-now{background:rgba(255,205,70,.22)!important}
     var idx=voices.findIndex(function(v){return v.name===saved}); if(idx>=0) vsel.value=String(idx);
     status();
   }
-  loadVoices(); if(synth.addEventListener) synth.addEventListener('voiceschanged',loadVoices); else synth.onvoiceschanged=loadVoices;
   vsel.onchange=function(){ var v=voices[+vsel.value]; if(v) ls('ttsVoice',v.name); restartIfPlaying(); };
-  $('ttsRate').onchange=function(){ rate=parseFloat(this.value)||1; ls('ttsRate',rate); restartIfPlaying(); };
+  $('ttsRate').onchange=function(){ rate=parseFloat(this.value)||1; ls('ttsRate',rate); buildList(); restartIfPlaying(); };
+
+  /* ---- ページ選択の表示 ---- */
+  function est(p){ var el=document.querySelector(p.sel); var n=el?(el.textContent||'').replace(/\s+/g,'').length:0; var m=Math.round(n/(6*rate)/60); return m<1?'1分未満':'約'+m+'分'; }
+  function estMin(p){ var el=document.querySelector(p.sel); var n=el?(el.textContent||'').replace(/\s+/g,'').length:0; return n/(6*rate)/60; }
+  function buildList(){
+    var h='';
+    PAGES.forEach(function(p,i){ h+='<label class="tt-ck"><input type="checkbox" data-p="'+p.id+'"'+(sel[p.id]?' checked':'')+'> <span>'+p.label+'</span><small>'+est(p)+'</small></label>'; });
+    $('ttsPages').innerHTML=h; sum();
+  }
+  function sum(){
+    var n=0,m=0; PAGES.forEach(function(p){ if(sel[p.id]){n++;m+=estMin(p)} });
+    $('ttsSum').innerHTML='選んだページ:<b>'+n+'</b>件 ・ 読み上げの目安:<b>約'+Math.round(m)+'分</b>(文字数からの目安です)';
+  }
+  function saveSel(){ ls('ttsSel',JSON.stringify(sel)); sum(); }
+  $('ttsPages').addEventListener('change',function(e){ var id=e.target.getAttribute('data-p'); if(id){ sel[id]=e.target.checked; saveSel(); } });
+  $('ttsAll').onclick=function(){ PAGES.forEach(function(p){sel[p.id]=true}); buildList(); saveSel(); };
+  $('ttsNone').onclick=function(){ PAGES.forEach(function(p){sel[p.id]=false}); buildList(); saveSel(); };
+  $('ttsNoList').onclick=function(){ PAGES.forEach(function(p){ if(p.long) sel[p.id]=false; }); buildList(); saveSel(); };
+  [].forEach.call(document.querySelectorAll('input[name="ttsMode"]'),function(r){
+    if(r.value===mode) r.checked=true;
+    r.onchange=function(){ if(!r.checked) return; mode=r.value; ls('ttsMode',mode); $('ttsSelBox').hidden=(mode!=='sel'); status(); };
+  });
+  $('ttsSelBox').hidden=(mode!=='sel');
+  $('ttsFold').checked=fold; $('ttsFold').onchange=function(){ fold=this.checked; ls('ttsFold',fold?'1':'0'); };
 
   /* ---- 表示 ---- */
   function unmark(){ if(marked){marked.classList.remove('tts-now');marked=null} }
-  function mark(b){ if(marked!==b.el){unmark(); b.el.classList.add('tts-now'); marked=b.el; try{b.el.scrollIntoView({block:'start',behavior:'smooth'})}catch(e){} } }
+  function mark(b){ expandFor(b.el); if(marked!==b.el){unmark(); b.el.classList.add('tts-now'); marked=b.el; try{b.el.scrollIntoView({block:'start',behavior:'smooth'})}catch(e){} } }
+  function pgLabel(){ var pg=queue[qi]; return pg?pg.label:''; }
   function status(){
     var st=$('ttsSt'),btn=$('ttsPlay'),fab=$('ttsFab');
-    var where=(ctxEl||ctx()).classList&&((ctxEl||ctx()).classList.contains('wrap'))?'ページ全体':'いま開いている画面';
+    var multi=queue.length>1;
+    var where=mode==='cur'?'いま見ている画面':(mode==='all'?'全ページ':'指定した'+PAGES.filter(function(p){return sel[p.id]}).length+'ページ');
     var noVoice=!voices.length?'<br>※日本語の声が見つからないときは、端末の設定で、日本語の読み上げ音声を追加してください。':'';
-    if(state==='playing'){btn.textContent='⏸ 一時停止';fab.setAttribute('aria-pressed','true');st.innerHTML='読み上げ中:<b>'+(bi+1)+' / '+blocks.length+'</b> 段落(対象:'+where+')'+noVoice}
-    else if(state==='paused'){btn.textContent='▶ つづきから';fab.setAttribute('aria-pressed','false');st.innerHTML='一時停止中:<b>'+(bi+1)+' / '+blocks.length+'</b> 段落'+noVoice}
-    else{btn.textContent='▶ 読み上げる';fab.setAttribute('aria-pressed','false');st.innerHTML='「読み上げる」を押すと、'+where+'を、はじめから読みます。'+noVoice}
+    var pos=(multi?'ページ <b>'+(qi+1)+' / '+queue.length+'</b>「'+pgLabel().replace(/</g,'&lt;')+'」・':'')+'段落 <b>'+(bi+1)+' / '+blocks.length+'</b>';
+    $('ttsPg').disabled=!(multi&&state!=='idle');
+    if(state==='playing'){btn.textContent='⏸ 一時停止';fab.setAttribute('aria-pressed','true');st.innerHTML='読み上げ中:'+pos+noVoice}
+    else if(state==='paused'){btn.textContent='▶ つづきから';fab.setAttribute('aria-pressed','false');st.innerHTML='一時停止中:'+pos+noVoice}
+    else{btn.textContent='▶ 読み上げる';fab.setAttribute('aria-pressed','false');st.innerHTML='「読み上げる」を押すと、<b>'+where+'</b>を、はじめから読みます。'+noVoice}
   }
 
   /* ---- 再生 ---- */
   function pickVoice(){ return voices[+vsel.value]||voices[0]||null; }
+  function loadPage(i,startBlock){
+    var pg=queue[i]; qi=i;
+    if(pg.kind!=='cur'){ showPage(pg); }
+    ctxEl=pg.kind==='cur'?pg.el:ctx();
+    blocks=collect(ctxEl); bi=startBlock||0; ci=0;
+    return blocks.length>0;
+  }
+  function nextPage(g){
+    restoreFold(); unmark();
+    var i=qi+1;
+    while(i<queue.length){ if(loadPage(i)){ step(g); return; } i++; }
+    finish(true);
+  }
   function step(g){
     if(g!==gen) return;
-    if(bi>=blocks.length){ finish(); return; }
+    if(bi>=blocks.length){ nextPage(g); return; }
     var b=blocks[bi];
     if(ci>=b.chunks.length){ bi++; ci=0; step(g); return; }
     mark(b); status();
@@ -4290,41 +4415,84 @@ html.dk .tts-now{background:rgba(255,205,70,.22)!important}
     synth.speak(u);
   }
   function begin(){ gen++; var g=gen; try{synth.cancel()}catch(e){} try{synth.resume()}catch(e){} state='playing'; status(); step(g); }
-  function build(){ ctxEl=ctx(); blocks=collect(ctxEl); bi=0; ci=0; }
-  function play(){
-    if(state==='paused'){ begin(); return; }
-    build();
-    if(!blocks.length){ $('ttsSt').textContent='読み上げる文章が見つかりませんでした。'; return; }
-    begin();
+  function buildQueue(){
+    if(mode==='cur'){ var c=ctx(); return [{id:'cur',kind:'cur',el:c,label:(c.closest&&c.closest('.dlg'))?'いま開いている画面':'TOPページ'}]; }
+    var list=mode==='all'?PAGES:PAGES.filter(function(p){return sel[p.id]});
+    return list.map(function(p){return {id:p.id,kind:p.kind,open:p.open,label:p.label,sel:p.sel}});
   }
+  function start(startBlock){
+    queue=buildQueue();
+    if(!queue.length){ $('ttsSt').textContent='読み上げるページが選ばれていません。「読む範囲」で、ページを選んでください。'; return false; }
+    var i=0; while(i<queue.length && !loadPage(i,i===0?startBlock:0)) i++;
+    if(i>=queue.length){ $('ttsSt').textContent='読み上げる文章が見つかりませんでした。'; return false; }
+    begin(); return true;
+  }
+  function play(){ if(state==='paused'){ begin(); return; } start(0); }
   function pause(){ gen++; try{synth.cancel()}catch(e){} state='paused'; status(); }
-  function finish(){ gen++; try{synth.cancel()}catch(e){} unmark(); state='idle'; blocks=[]; bi=0; ci=0; status(); $('ttsSt').innerHTML='最後まで読み上げました。'; }
-  function stop(){ gen++; try{synth.cancel()}catch(e){} unmark(); state='idle'; blocks=[]; bi=0; ci=0; ctxEl=null; status(); }
+  function finish(done){
+    gen++; try{synth.cancel()}catch(e){} unmark(); restoreFold(); state='idle';
+    var multi=queue.length>1&&queue[0].kind!=='cur';
+    blocks=[];bi=0;ci=0;qi=0;queue=[];ctxEl=null;
+    if(multi) closeAllScreens();
+    status(); if(done) $('ttsSt').innerHTML='最後まで読み上げました。';
+  }
+  function stop(){ finish(false); }
   function restartIfPlaying(){ if(state==='playing'){ begin(); } }
+  function ensure(){ if(state!=='idle') return true; queue=buildQueue(); if(!queue.length||!loadPage(0,0)){ queue=[]; return false; } state='paused'; return true; }
   function jump(to){
-    if(state==='idle'){ build(); if(!blocks.length) return; state='paused'; }
+    if(!ensure()) return;
     bi=Math.max(0,Math.min(blocks.length-1,to)); ci=0;
     if(state==='playing') begin(); else { mark(blocks[bi]); status(); }
   }
   function nextHead(){
-    if(state==='idle'){ build(); if(!blocks.length) return; state='paused'; }
+    if(!ensure()) return;
     for(var i=bi+1;i<blocks.length;i++){ if(blocks[i].head){ jump(i); return; } }
     jump(blocks.length-1);
+  }
+  function skipPage(){
+    if(state==='idle'||queue.length<2) return;
+    var was=state; gen++; try{synth.cancel()}catch(e){}
+    restoreFold(); unmark();
+    var i=qi+1;
+    while(i<queue.length&&!loadPage(i)) i++;
+    if(i>=queue.length){ finish(true); return; }
+    if(was==='playing') begin(); else { state='paused'; mark(blocks[0]); status(); }
   }
   $('ttsPlay').onclick=function(){ if(state==='playing') pause(); else play(); };
   $('ttsStop').onclick=stop;
   $('ttsPrev').onclick=function(){ jump((state==='idle'?0:bi)-1); };
   $('ttsNext').onclick=function(){ jump((state==='idle'?0:bi)+1); };
   $('ttsHead').onclick=nextHead;
-  $('ttsFab').onclick=function(){ root.classList.toggle('open'); status(); };
+  $('ttsPg').onclick=skipPage;
+  $('ttsFab').onclick=function(){ if(picking){ pickOff(); root.classList.add('open'); status(); return; } root.classList.toggle('open'); status(); };
   $('ttsClose').onclick=function(){ root.classList.remove('open'); };
 
-  /* ---- 画面が切り替わったら、読み上げを止める ---- */
+  /* ---- タップした所から読む ---- */
+  function pickOff(){ picking=false; root.classList.remove('hold'); document.body.classList.remove('tts-picking'); $('ttsPick').classList.remove('on'); $('ttsPick').setAttribute('aria-pressed','false'); document.removeEventListener('click',onPick,true); }
+  function onPick(e){
+    var t=e.target; if(t.closest&&t.closest('#tts')) return;
+    e.preventDefault(); e.stopPropagation(); pickOff();
+    stop();
+    var saveMode=mode; mode='cur'; queue=buildQueue(); if(!loadPage(0,0)){ mode=saveMode; queue=[]; $('ttsSt').textContent='読み上げる文章が見つかりませんでした。'; return; }
+    var idx=-1; for(var i=0;i<blocks.length;i++){ if(blocks[i].el===t||blocks[i].el.contains(t)){ idx=i; break; } }
+    if(idx<0){ for(var j=0;j<blocks.length;j++){ if(t.compareDocumentPosition(blocks[j].el)&Node.DOCUMENT_POSITION_FOLLOWING){ idx=j; break; } } }
+    if(idx<0) idx=0;
+    bi=idx; ci=0; mode=saveMode; begin();
+  }
+  $('ttsPick').onclick=function(){
+    if(picking){ pickOff(); status(); return; }
+    picking=true; document.body.classList.add('tts-picking'); this.classList.add('on'); this.setAttribute('aria-pressed','true');
+    root.classList.remove('open');   // パネルを閉じて、画面の文章をタップしやすくする
+    document.addEventListener('click',onPick,true);
+  };
+
+  /* ---- ほかの操作で画面が切り替わったら、読み上げを止める ---- */
   function watch(){
     var mo=new MutationObserver(function(){ if(state!=='idle'&&ctx()!==ctxEl) stop(); });
     [].forEach.call(document.querySelectorAll('.dlg,.mnu'),function(el){ mo.observe(el,{attributes:true,attributeFilter:['class','style']}); });
   }
-  watch();
+  loadVoices(); if(synth.addEventListener) synth.addEventListener('voiceschanged',loadVoices); else synth.onvoiceschanged=loadVoices;
+  buildList(); watch();
   window.addEventListener('pagehide',function(){ try{synth.cancel()}catch(e){} });
   status();
 })();
