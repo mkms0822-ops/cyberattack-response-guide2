@@ -492,6 +492,12 @@
 #phRoot .ph-prog .ph-tr{height:7px;background:#e4eaf2;border-radius:99px;overflow:hidden}
 #phRoot .ph-prog .ph-tr i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#7ec89c,var(--green));transition:width .4s}
 #phRoot .ph-sec{margin-top:28px}
+#phRoot .ph-fig{margin:12px 0 4px;text-align:center}
+#phRoot .ph-fig img{display:block;max-width:100%;height:auto;margin:0 auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+#phRoot .ph-fig-s img{max-width:340px}
+#phRoot .ph-fig figcaption{font-size:11.5px;color:var(--sub);margin-top:5px;line-height:1.6}
+#phRoot .ph-zm{display:block}
+#phRoot .ph-h4{font-size:13.5px;margin:12px 0 2px}
 #phRoot .ph-sec>h2{font-size:17px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px;text-wrap:balance}
 #phRoot .ph-sec>.ph-sub{font-size:13px;color:var(--sub);margin-bottom:12px}
 #phRoot .ph-sec h3{font-size:14px;color:var(--blue);margin:16px 0 6px}
@@ -1011,7 +1017,7 @@ html.dk #ofRoot .of-btn.dg{color:var(--of-red)}
       <span class="tx">フィッシング対策ガイド<small>口座・暗号資産を偽サイトから守る手順と、2025年・2026年の被害比較</small></span></button>
     <button type="button" class="mnu-i" onclick="openDlg('dlgPhish');setTimeout(function(){phGo('app')},120)">
       <span class="ic">📱</span>
-      <span class="tx">偽アプリで、お金を抜かれる被害に注意<small>SNS広告・メールから入れた偽アプリで、スマホを乗っ取られる手口と守り方(2026年10月・警察庁/JC3)</small></span></button>
+      <span class="tx">偽アプリで、お金を抜かれる被害に注意<small>SNS広告・メールから入れた偽アプリで、スマホを乗っ取られる手口と守り方(2026年10月・日本サイバー犯罪対策センター JC3/警察庁)</small></span></button>
 
     <div class="mnu-sec">// ネットが切れたら</div>
     <button type="button" class="mnu-i" onclick="openDlg('dlgOffline')">
@@ -1647,51 +1653,69 @@ html.dk #ofRoot .of-btn.dg{color:var(--of-red)}
 
   <!-- ===== 偽アプリ ===== -->
   <section class="ph-sec" id="ph-sec-app">
-    <h2>📱 偽アプリで、スマホを乗っ取られ、お金を抜かれる</h2>
-    <p class="ph-sub">2026年10月、警察庁とJC3(日本サイバー犯罪対策センター)が、偽のアプリ(不正アプリ)による金銭被害への注意を呼びかけています。偽サイトに入力しなくても、<b>アプリを入れただけ</b>で、お金が動くことがあります。</p>
+    <h2>📱 偽アプリの導入による金銭被害</h2>
+    <p class="ph-sub">「お得」「見たい」に付け込む、アプリ導入に注意。偽サイトに入力しなくても、<b>アプリを入れただけ</b>で、お金が動くことがあります。</p>
+    <p class="ph-sm">提供元:<b>日本サイバー犯罪対策センター(JC3)</b>の注意喚起「偽アプリの導入による金銭被害」(<a href="https://www.jc3.or.jp/threats/examples/article-719.html" target="_blank" rel="noopener noreferrer">原文 ↗</a>)。以下は、その内容にもとづく紹介です。図は、JC3の資料です。</p>
 
     <div class="ph-card">
-      <h3 style="margin-top:0">手口の流れ(警察庁)</h3>
-      <ol>
-        <li>SNSの広告、メール・SMSのリンク、SNSで知り合った相手などから、アプリを入れるように誘導される。</li>
-        <li>有名なSNSやアプリを装った<b>不正アプリ</b>をインストールする。</li>
-        <li>マルウェアに感染し、<b>スマホが遠隔操作される</b>。</li>
-        <li>キャッシュレス決済サービスから、勝手にチャージされ、送金される。</li>
-      </ol>
-      <p class="ph-sm">警察庁の資料には、3件の支払い(2万円・3万5,000円・5万円)の合計10万5,000円が、残高0円になるまで不正に使われた例が示されています。</p>
+      <h3 style="margin-top:0">概要</h3>
+      <p>偽アプリの導入により、犯罪者にスマートフォンをリモートから操作され、意図せず金銭流出が生じる被害が確認されています。犯罪者は、ユーザーの金銭的なメリットや性的関心に付け込み、遠隔操作を可能とする偽のスマートフォンアプリを導入させ、オンラインバンキングの不正送金や不正なキャッシュレス決済等により、金銭を窃取します。</p>
+      <p>「お得」「見たい」などの興味に付け込み、金銭的な被害を引き起こす偽アプリの導入を促す手口が流行していることを前提に、あらためて、アプリの導入にリスクが伴うことや、アプリにどのような権限を与えるかを把握する重要性を認識してください。</p>
+      <figure class="ph-fig">
+        <a class="ph-zm" href="img/jc3-fake-app-flow.webp" target="_blank" rel="noopener noreferrer" aria-label="図を原寸で開く(新しいタブ)"><img src="img/jc3-fake-app-flow.webp" width="1615" height="756" loading="lazy" decoding="async" alt="偽アプリの攻撃の流れを示す図。左:SNS広告やEメールから偽アプリ導入へ誘導(ポイント獲得、ポイント失効回避、返金・払い戻し、アダルトコンテンツなど、金銭的メリットや性的関心への付け込み)。中央:偽アプリ導入。高い権限で犯罪者がリモートから制御。右:偽アプリの動作と被害(オンラインバンキングの不正送金、QRコード決済の不正利用、スマホ決済の不正利用など。動作の特徴は、正規アプリと誤認させる動作、アクセシビリティなど高い権限の要求、突然スマホが使用不能になる、不正アプリの削除を拒む動作など)"></a>
+        <figcaption>図1 偽アプリの導入から被害までの流れ(出典:JC3)。タップすると、原寸で開きます</figcaption>
+      </figure>
     </div>
 
     <div class="ph-card">
-      <h3 style="margin-top:0">どんな誘いで入れさせるか(JC3、10月15日の注意喚起)</h3>
-      <ul>
-        <li>「得したい」「見たい」という気持ちにつけ込みます。実在する正規アプリの名前に<b>「大人の」「18+」</b>などをつけた、アダルト系のSNS広告が確認されています。</li>
-        <li><b>国税庁など、公的機関を装ったメール</b>から誘導する例も確認されています。</li>
-        <li>誘導先のサイトは、正規の企業やサービスを装い、関心を保ったまま、インストールへ進ませます。</li>
-        <li>偽アプリは、<b>「ユーザー補助(アクセシビリティ)」の権限</b>を求めます。許可すると、端末を遠隔操作されるおそれがあります。</li>
-        <li>被害は、オンラインバンキングの不正な操作や、不正なキャッシュレス決済です。<b>端末が操作できなくなった事例</b>も確認されています。</li>
-      </ul>
+      <h3 style="margin-top:0">偽アプリ導入に向けた誘導</h3>
+      <p>ポイントの獲得や失効の回避、還付金や払い戻しをうたうなど、金銭的なメリットを訴求する<b>Eメールからのリンク</b>や、正規アプリ名に<b>「大人の」や「18+」</b>などの単語を付加することで、アダルトな動画やコンテンツを想起させる<b>SNS広告</b>により誘導する手口を確認しています。</p>
+      <p>これらの誘導先サイトでは、正規企業や正規サービスを装った導線や、誘導元から続く自然なコンテンツの流れにより、ユーザーの関心を維持したまま、アプリの導入を促します。</p>
+      <figure class="ph-fig">
+        <a class="ph-zm" href="img/jc3-fake-app-examples.webp" target="_blank" rel="noopener noreferrer" aria-label="図を原寸で開く(新しいタブ)"><img src="img/jc3-fake-app-examples.webp" width="1299" height="595" loading="lazy" decoding="async" alt="誘導の例。左から、18+をうたうアダルト系アプリのSNS広告の例、Androidアプリ(APK)のダウンロードを促す誘導先サイト例、国税庁を装う「源泉徴収による過納還付金のご案内」のEメールの例、e-Taxアプリを装う誘導先サイト例"></a>
+        <figcaption>図2 SNS広告・Eメール・誘導先サイトの例(出典:JC3)。タップすると、原寸で開きます</figcaption>
+      </figure>
     </div>
 
     <div class="ph-card">
-      <h3 style="margin-top:0">最近確認された、国税庁を装うメール(10月19日確認)</h3>
-      <ul>
-        <li>件名「税務署からのお知らせ【確定申告の結果、過納額が生じております】」で、還付金125,600円の受け取りを口実に、<b>「e-Taxアプリをダウンロード」</b>へ誘導するものです(詐欺メールを集めたサイト「フラウドナビ」の10月19日の記事)。</li>
-        <li>リンク先は、国税庁やe-Taxの公式ではないドメインで、添付ファイルがついているように見えます。国税庁は、e-Taxのお知らせメールにファイルを添付しないと案内しています。</li>
-        <li>この記事は、リンク先の動作や配布ファイルを解析しておらず、<b>不正アプリの配布が確認されたわけではありません</b>。被害の報告も記載されていません。ただし、メールのリンクからアプリを入れる流れは、上の手口と同じ形です。</li>
-        <li>還付金の有無は、<b>自分で開いた</b>国税庁・e-Taxの公式サイトで確認します。</li>
-      </ul>
+      <h3 style="margin-top:0">偽アプリの特徴と被害</h3>
+      <p>金銭的な被害を引き起こす偽アプリは、正規企業や正規サービスを装ったもの、誘導時からの自然なコンテンツの流れを維持した見た目のものなど、<b>違和感や不信感を覚えにくい作り</b>になっています。</p>
+      <p>また、該当のアプリは、<b>アクセシビリティ機能(ユーザー補助)の権限</b>を要求するなど、スマートフォン上の高い権限を求める傾向があります。ユーザーがこの要求を許可すると、犯罪者はリモートから該当のスマートフォンを高い権限で制御できるため、事実上、<b>スマートフォンは犯罪者の制御下に置かれる状態</b>となります。</p>
+      <p>その結果、制御されたスマートフォンで、<b>オンラインバンキングの不正送金</b>や、<b>QRコード決済の不正使用</b>、<b>キャリア決済の不正使用</b>など、様々な方法による金銭的な被害が確認されています。なお、攻撃者にスマートフォンの制御を奪われた結果として、<b>スマートフォンが操作できない状態になる事例</b>も確認されています。</p>
+      <figure class="ph-fig ph-fig-s">
+        <a class="ph-zm" href="img/jc3-fake-app-locked.webp" target="_blank" rel="noopener noreferrer" aria-label="図を原寸で開く(新しいタブ)"><img src="img/jc3-fake-app-locked.webp" width="620" height="651" loading="lazy" decoding="async" alt="操作できない状態の画面例。左は「Loading resources...」と進捗46%を表示する画面、右は「Installing system update...」と進捗15%、「Do not turn off, lock the screen, or touch the screen」と表示する画面"></a>
+        <figcaption>図3 操作できない状態の画面例(出典:JC3)。タップすると、原寸で開きます</figcaption>
+      </figure>
     </div>
 
     <div class="ph-card">
-      <h3 style="margin-top:0">守り方</h3>
+      <h3 style="margin-top:0">注意と対策</h3>
+      <p>本件は、金銭的なメリットによる「お得」や、性的関心等からの「見たい」などの興味に付け込み、ユーザーに偽アプリの導入を促す手口です。このような攻撃が存在し、流行していることを認識し、アプリのインストールの際は、十分に注意してください。</p>
+      <h4 class="ph-h4">アプリ導入時</h4>
       <ul>
-        <li><b>SNS広告やメール・SMSで案内されたアプリは、入れない。</b>アプリは、公式のストアで、自分で探して入れる。</li>
-        <li>公式のストアのアプリでも、<b>提供元と内容</b>をよく確認する。</li>
-        <li>「ユーザー補助」などの権限を求められたら、<b>用途を確認して、心当たりがなければ許可しない</b>。</li>
-        <li>OSを最新にし、ウイルス対策を入れる(警察庁)。</li>
-        <li>怪しい動作があれば、<b>すぐにそのアプリを削除</b>する。</li>
+        <li>正規のアプリを装った<b>偽アプリが存在する</b>ことを認識する。</li>
+        <li>アプリの<b>提供元や内容</b>を確認し、不審な点がある場合は、インストールを控える。</li>
       </ul>
-      <div class="ph-bad"><b>すでに入れてしまったときは、</b>アプリを削除し(できなければ通信を切る)、<b>別の端末から</b>銀行・決済サービスのパスワードを変更し、金融機関・決済事業者へ連絡して、警察署やサイバー犯罪相談窓口に相談します。くわしい順番は、下の「入力してしまった・お金が動いたとき」を見てください。</div>
+      <h4 class="ph-h4">アプリ導入後</h4>
+      <ul>
+        <li>アプリの要求する<b>権限を確認して</b>から、許可する。</li>
+        <li>怪しい動作が見られるなど、不正な可能性がある場合は、<b>直ちに削除</b>する。</li>
+      </ul>
+      <h4 class="ph-h4">被害を確認した場合</h4>
+      <ul>
+        <li><b>警察に通報・相談</b>してください(<a href="https://www.npa.go.jp/bureau/cyber/soudan.html" target="_blank" rel="noopener noreferrer">警察庁 サイバー犯罪の相談窓口 ↗</a>)。また、可能であれば、直ちに偽アプリを削除してください。</li>
+      </ul>
+      <div class="ph-bad"><b>金融機関への連絡や、パスワードの変更など、お金を守る順番は、</b>下の「入力してしまった・お金が動いたとき」を見てください。</div>
+      <p class="ph-sm"><b>【補足】</b>本注意喚起に記載された攻撃は、現時点で確認されているものです。記載した事例に限らず、注意してください。また、今後、手口が変化する可能性があります。</p>
+    </div>
+
+    <div class="ph-card">
+      <h3 style="margin-top:0">ほかの機関の情報(あわせて確認)</h3>
+      <ul>
+        <li><b>警察庁</b>(Cyber Police Agency Letter 2026 Vol.18、令和8年9月):SNSの広告、メール・SMSのリンク、SNSで知り合った相手などから、不正アプリを入れさせ、スマホを遠隔操作して、キャッシュレス決済サービスから勝手にチャージ・送金する流れが示されています。3件の支払い(2万円・3万5,000円・5万円)の合計10万5,000円が、残高0円になるまで使われた例もあります。OSを最新にし、ウイルス対策を入れる、公式のストアのアプリでも提供元と内容を確認する、という対策も挙げられています。</li>
+        <li><b>国税庁を装うメール</b>(10月19日確認。詐欺メール情報サイト「フラウドナビ」):「税務署からのお知らせ【確定申告の結果、過納額が生じております】」で、還付金125,600円を口実に「e-Taxアプリをダウンロード」へ誘導するものです。リンク先は、国税庁・e-Taxの公式ではないドメインです。この記事は、リンク先を解析しておらず、<b>不正アプリの配布が確認されたわけではありません</b>。還付金の有無は、<b>自分で開いた</b>国税庁・e-Taxの公式サイトで確認します。</li>
+      </ul>
+      <p class="ph-sm">被害の件数や総額の統計は、確認できた資料には記載がありませんでした。</p>
     </div>
   </section>
 
@@ -1767,7 +1791,7 @@ html.dk #ofRoot .of-btn.dg{color:var(--of-red)}
       <li>日本クレジット協会 クレジットカード不正利用被害の集計(2026年9月7日公表。2026年上半期221.3億円、番号盗用93.1%)。2025年の上半期314億円超・1〜9月416億円超は、報道の見出しの数値で、一次資料では未確認</li>
       <li>2025年の不正送金の通年約104億円・約9割がフィッシングとする点は、2026年3月の解説記事(警察庁資料にもとづく)による。警察庁の原資料は未確認</li>
       <li>金融庁・警察庁「暗号資産を用いた詐欺被害等防止に向けた対策の一層の強化について」(2026年8月6日)</li>
-      <li>偽アプリ:<a href="https://www.npa.go.jp/bureau/cyber/pdf/R8_Vol.18cpal.pdf" target="_blank" rel="noopener noreferrer">警察庁「Cyber Police Agency Letter 2026 Vol.18」(令和8年9月) ↗</a>(手口の流れ・被害例・対策)、<a href="https://internet.watch.impress.co.jp/docs/news/2149199.html" target="_blank" rel="noopener noreferrer">INTERNET Watch 2026年10月20日の記事 ↗</a>(JC3の10月15日の注意喚起)。被害件数・被害総額の統計は、確認できた資料には記載がありませんでした</li>
+      <li>偽アプリ(主な出典):<a href="https://www.jc3.or.jp/threats/examples/article-719.html" target="_blank" rel="noopener noreferrer">日本サイバー犯罪対策センター(JC3)「偽アプリの導入による金銭被害」 ↗</a>(本文・図1〜3の提供元)。あわせて、<a href="https://www.npa.go.jp/bureau/cyber/pdf/R8_Vol.18cpal.pdf" target="_blank" rel="noopener noreferrer">警察庁「Cyber Police Agency Letter 2026 Vol.18」(令和8年9月) ↗</a>(手口の流れ・被害例・対策)、<a href="https://internet.watch.impress.co.jp/docs/news/2149199.html" target="_blank" rel="noopener noreferrer">INTERNET Watch 2026年10月20日の記事 ↗</a>(JC3の10月15日の注意喚起)。被害件数・被害総額の統計は、確認できた資料には記載がありませんでした</li>
       <li>国税庁を装うメール:<a href="https://www.fraudnavi.com/2026/10/19/%E3%80%90%E5%9B%BD%E7%A8%8E%E5%BA%81%E3%82%92%E8%A3%85%E3%81%86%E8%A9%90%E6%AC%BA%E3%83%A1%E3%83%BC%E3%83%AB%E3%80%91%E3%80%8C%E7%A2%BA%E5%AE%9A%E7%94%B3%E5%91%8A%E3%81%AE%E7%B5%90%E6%9E%9C%E3%80%81/" target="_blank" rel="noopener noreferrer">フラウドナビ 2026年10月19日の記事 ↗</a>。リンク先の解析は行われておらず、不正アプリの配布は未確認</li>
     </ul></div>
     <div class="ph-note">
@@ -4089,7 +4113,7 @@ var d0=$('dlgOffline');if(d0&&d0.classList.contains('open')){safeInit();netUp()}
   var CN='nk-offline-v1', K='nkSw_v1';
   var sup=('serviceWorker' in navigator)&&('caches' in window);
   var secure=(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1');
-  var ASSETS=['manifest.webmanifest','icon-192.png','icon-512.png','leak-hero.jpg','data/breach-data.js','data/cyber-data.js'];
+  var ASSETS=['manifest.webmanifest','icon-192.png','icon-512.png','leak-hero.jpg','data/breach-data.js','data/cyber-data.js','img/jc3-fake-app-flow.webp','img/jc3-fake-app-examples.webp','img/jc3-fake-app-locked.webp'];
   function base(){ return location.href.split('#')[0].split('?')[0]; }
   function shellKey(){ return new URL('__nk_shell__', new URL('sw.js', location.href)).href; }
   function avail(){ return location.protocol!=='file:' && sup && secure; }
